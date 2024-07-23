@@ -3,6 +3,7 @@ import 'package:pm2/models/task_data.dart';
 import 'package:pm2/screens/auth/registration_screen.dart';
 import 'package:pm2/models/auth/user.dart';
 import 'package:pm2/screens/tasks_screen.dart';
+import 'package:pm2/services/notification.dart';
 
 var user = new User();
 
@@ -18,10 +19,24 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   void initState() {
+    listenToNotifications();
+
     super.initState();
     if (User.currentUser != null) {
       Navigator.pushNamed(context, TasksScreen.routeName);
     }
+  }
+
+  //  to listen to any notification clicked or not
+  listenToNotifications() {
+    print("Listening to notification");
+    LocalNotifications.onClickNotification.stream.listen((event) {
+      print(event);
+      Navigator.pushNamed(
+        context,
+        RegistrationScreen.routeName,
+      );
+    });
   }
 
   @override
@@ -73,6 +88,16 @@ class _LoginScreenState extends State<LoginScreen> {
               child: Text('Register'),
               onPressed: () {
                 Navigator.pushNamed(context, RegistrationScreen.routeName);
+              },
+            ),
+            ElevatedButton.icon(
+              icon: Icon(Icons.exit_to_app),
+              label: Text('simple notification'),
+              onPressed: () async {
+                LocalNotifications.showSimpleNotification(
+                    title: "persistent Notification",
+                    body: "This is a simple notification",
+                    payload: "This is simple data");
               },
             ),
           ],

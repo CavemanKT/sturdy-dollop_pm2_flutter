@@ -21,7 +21,6 @@ class RegistrationScreen extends StatefulWidget {
 class _RegistrationScreenState extends State<RegistrationScreen> {
   TextEditingController usernameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-  NotificationService notificationService = NotificationService();
 
   @override
   void initState() {
@@ -58,29 +57,9 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
             ),
             ElevatedButton(
               child: Text('submit'),
-              onLongPress: () async {
-                await notificationService.showNotification(
-                  0,
-                  'Login Successful',
-                  'Welcome back',
-                  jsonEncode({
-                    "title": '123',
-                    "body": '123',
-                  }),
-                );
-              },
               onPressed: () async {
                 // Perform login logic here
                 try {
-                  await notificationService.showNotification(
-                    0,
-                    'Login Successful',
-                    'Welcome back',
-                    jsonEncode({
-                      "title": '123',
-                      "body": '123',
-                    }),
-                  );
                   bool result = await user.signup(usernameController.text,
                       passwordController.text, '', '', '', 'tenant', '1');
                   print(User.currentUser);
@@ -96,6 +75,16 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                 } catch (e) {
                   print(e);
                 }
+              },
+            ),
+            TextButton(
+              child: Text('Back'),
+              style: ButtonStyle(
+                foregroundColor: WidgetStateProperty.all<Color>(
+                    Color.fromARGB(255, 40, 38, 38)),
+              ),
+              onPressed: () {
+                Navigator.pushNamed(context, LoginScreen.routeName);
               },
             ),
           ],
