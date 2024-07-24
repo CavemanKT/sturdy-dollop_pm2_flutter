@@ -32,13 +32,12 @@ class TaskData extends ChangeNotifier {
 
     print("response.statusCode: ${response.statusCode}");
     if (response.statusCode == 200) {
-      _tasks.addAll(jsonDecode(response.body));
+      _tasks = List.from(jsonDecode(response.body));
+      _tasks.sort((a, b) => a['createdAt'].compareTo(b['createdAt']));
       notifyListeners();
     } else {
       throw Exception('Failed to load tasks.');
     }
-
-    notifyListeners();
   }
 
   Future<void> addTask(
@@ -64,12 +63,39 @@ class TaskData extends ChangeNotifier {
     } else {
       throw Exception('Failed to add task.');
     }
-    notifyListeners();
   }
 
   void updateTask(dynamic task) {
     task.setComplete();
     notifyListeners();
+  }
+
+  Future<void> updateCheckBox(dynamic task) async {
+    print("task: $task");
+    var apiUrl = "$API_URL_CONFIG/api/posts/${task['id']}";
+    final http.Response response = await http.patch(
+      Uri.parse(apiUrl),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': 'Bearer ${User.currentUser['id']}'
+      },
+      body: jsonEncode(<String, dynamic>{
+        ...task,
+        'status': task['status'] == 'complete' ? 'incomplete' : 'complete'
+      }),
+    );
+
+    print("response.statusCode: ${response.statusCode}");
+    print("response.body: ${response.body}");
+    if (response.statusCode == 200) {
+      // _tasks[_tasks.indexOf(task)] = jsonDecode(response.body);
+      _tasks.removeWhere((element) => element['id'] == task['id']);
+      _tasks.add(jsonDecode(response.body));
+      _tasks.sort((a, b) => a['createdAt'].compareTo(b['createdAt']));
+      notifyListeners();
+    } else {
+      throw Exception('Failed to update the status of the task.');
+    }
   }
 
   Future<void> deleteTask(num id) async {

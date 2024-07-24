@@ -35,7 +35,7 @@ class _TasksListState extends State<TasksList> {
               taskContent: task['content'],
               isChecked: task['status'] == 'complete' ? true : false,
               checkboxCallback: () {
-                // taskData.updateTask(task);
+                taskData.updateCheckBox(task);
               },
               longPressCallback: () {
                 print("task id: ${task['id']}");

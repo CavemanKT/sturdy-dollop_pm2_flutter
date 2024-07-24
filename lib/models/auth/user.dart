@@ -70,9 +70,9 @@ class User extends ChangeNotifier {
     print("response.statusCode: ${response.statusCode}");
     if (response.statusCode == 204) {
       currentUser = null;
+      notifyListeners();
     } else {
       throw Exception('Failed to logout.');
     }
-    notifyListeners();
   }
 }

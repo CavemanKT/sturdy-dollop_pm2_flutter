@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pm2/models/task_data.dart';
-import 'package:pm2/screens/auth/enterprise_login_screen.dart';
+import 'package:pm2/screens/auth/login_screen.dart';
 import 'package:pm2/screens/auth/registration_screen.dart';
 import 'package:pm2/models/auth/user.dart';
 import 'package:pm2/screens/tasks_screen.dart';
@@ -8,13 +8,13 @@ import 'package:pm2/services/notification.dart';
 
 var user = new User();
 
-class LoginScreen extends StatefulWidget {
-  static const String routeName = '/loginScreen';
+class EnterpriseLoginScreen extends StatefulWidget {
+  static const String routeName = '/enterpriseLoginScreen';
   @override
-  _LoginScreenState createState() => _LoginScreenState();
+  _EnterpriseLoginScreenState createState() => _EnterpriseLoginScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _EnterpriseLoginScreenState extends State<EnterpriseLoginScreen> {
   TextEditingController usernameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
@@ -45,17 +45,18 @@ class _LoginScreenState extends State<LoginScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Center(
-            child: Text.rich(
-          TextSpan(
-            children: [
-              TextSpan(text: 'Login'),
-              WidgetSpan(
-                child: Icon(Icons.verified_user),
-                alignment: PlaceholderAlignment.middle,
-              ),
-            ],
+          child: Text.rich(
+            TextSpan(
+              children: [
+                TextSpan(text: 'Enterprise Login'),
+                WidgetSpan(
+                  child: Icon(Icons.business),
+                  alignment: PlaceholderAlignment.middle,
+                ),
+              ],
+            ),
           ),
-        )),
+        ),
         automaticallyImplyLeading: false,
       ),
       body: Container(
@@ -96,27 +97,11 @@ class _LoginScreenState extends State<LoginScreen> {
                 }
               },
             ),
-            ElevatedButton(
-              child: Text('Register'),
-              onPressed: () {
-                Navigator.pushNamed(context, RegistrationScreen.routeName);
-              },
-            ),
             ElevatedButton.icon(
-              icon: Icon(Icons.business_outlined),
-              label: Text('enterprise portal'),
+              icon: Icon(Icons.arrow_back),
+              label: Text('back'),
               onPressed: () async {
-                Navigator.pushNamed(context, EnterpriseLoginScreen.routeName);
-              },
-            ),
-            ElevatedButton.icon(
-              icon: Icon(Icons.exit_to_app),
-              label: Text('simple notification'),
-              onPressed: () async {
-                LocalNotifications.showSimpleNotification(
-                    title: "persistent Notification",
-                    body: "This is a simple notification",
-                    payload: "This is simple data");
+                Navigator.pushNamed(context, LoginScreen.routeName);
               },
             ),
           ],
