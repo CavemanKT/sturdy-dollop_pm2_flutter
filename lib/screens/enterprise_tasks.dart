@@ -1,27 +1,27 @@
 import 'package:flutter/material.dart';
-import 'package:pm2/models/auth/user.dart';
-import 'package:pm2/screens/auth/login_screen.dart';
+import 'package:pm2/models/auth/landlord.dart';
+import 'package:pm2/screens/auth/enterprise_login_screen.dart';
 import 'package:pm2/widgets/tasks_list.dart';
 import 'package:pm2/screens/add_task_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:pm2/models/task_data.dart';
 
-var user = new User();
+var user = new Landlord();
 
-class TasksScreen extends StatefulWidget {
-  static const String routeName = '/tasksScreen';
+class EnterpriseTasksScreen extends StatefulWidget {
+  static const String routeName = '/enterpriseTasksScreen';
 
   @override
-  State<TasksScreen> createState() => _TasksScreenState();
+  State<EnterpriseTasksScreen> createState() => _EnterpriseTasksScreenState();
 }
 
-class _TasksScreenState extends State<TasksScreen> {
+class _EnterpriseTasksScreenState extends State<EnterpriseTasksScreen> {
   bool loggedIn = false;
 
   @override
   void initState() {
     super.initState();
-    if (User.currentUser != null) {
+    if (Landlord.currentUser != null) {
       setState(() {
         loggedIn = true;
       });
@@ -47,7 +47,8 @@ class _TasksScreenState extends State<TasksScreen> {
                     print("user is going to logout.");
                     await user.logout();
                     Navigator.pop(context);
-                    Navigator.pushNamed(context, LoginScreen.routeName);
+                    Navigator.pushNamed(
+                        context, EnterpriseLoginScreen.routeName);
                   },
                 )
               ],
@@ -123,6 +124,6 @@ class _TasksScreenState extends State<TasksScreen> {
               ],
             ),
           )
-        : LoginScreen();
+        : EnterpriseLoginScreen();
   }
 }

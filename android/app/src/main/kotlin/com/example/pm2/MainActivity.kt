@@ -1,4 +1,4 @@
-package com.example.pm2
+package com.kt.pm2
 
 import io.flutter.embedding.android.FlutterActivity
 

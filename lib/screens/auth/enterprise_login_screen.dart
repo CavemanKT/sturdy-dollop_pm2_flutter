@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:pm2/models/task_data.dart';
 import 'package:pm2/screens/auth/login_screen.dart';
 import 'package:pm2/screens/auth/registration_screen.dart';
-import 'package:pm2/models/auth/user.dart';
+import 'package:pm2/models/auth/landlord.dart';
+import 'package:pm2/screens/enterprise_tasks.dart';
 import 'package:pm2/screens/tasks_screen.dart';
 import 'package:pm2/services/notification.dart';
 
-var user = new User();
+var user = new Landlord();
 
 class EnterpriseLoginScreen extends StatefulWidget {
   static const String routeName = '/enterpriseLoginScreen';
@@ -20,29 +21,16 @@ class _EnterpriseLoginScreenState extends State<EnterpriseLoginScreen> {
 
   @override
   void initState() {
-    listenToNotifications();
-
     super.initState();
-    if (User.currentUser != null) {
-      Navigator.pushNamed(context, TasksScreen.routeName);
+    if (Landlord.currentUser != null) {
+      Navigator.pushNamed(context, EnterpriseTasksScreen.routeName);
     }
-  }
-
-  //  to listen to any notification clicked or not
-  listenToNotifications() {
-    print("Listening to notification");
-    LocalNotifications.onClickNotification.stream.listen((event) {
-      print(event);
-      Navigator.pushNamed(
-        context,
-        RegistrationScreen.routeName,
-      );
-    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         title: Center(
           child: Text.rich(
@@ -83,15 +71,15 @@ class _EnterpriseLoginScreenState extends State<EnterpriseLoginScreen> {
                 try {
                   await user.login(
                       usernameController.text, passwordController.text);
-                  print(User.currentUser);
+                  print(Landlord.currentUser);
 
                   var task = TaskData();
-                  task.initializeTasks(User.currentUser['Posts']);
+                  task.initializeTasks(Landlord.currentUser['Posts']);
 
                   usernameController.clear();
                   passwordController.clear();
 
-                  Navigator.pushNamed(context, TasksScreen.routeName);
+                  Navigator.pushNamed(context, EnterpriseTasksScreen.routeName);
                 } catch (e) {
                   print(e);
                 }

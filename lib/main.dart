@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pm2/screens/auth/enterprise_login_screen.dart';
 import 'package:pm2/screens/auth/login_screen.dart';
 import 'package:pm2/screens/auth/registration_screen.dart';
+import 'package:pm2/screens/enterprise_tasks.dart';
 import 'package:pm2/screens/tasks_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:pm2/models/task_data.dart';
@@ -45,8 +46,9 @@ class MyApp extends StatelessWidget {
         routes: {
           TasksScreen.routeName: (context) => TasksScreen(),
           LoginScreen.routeName: (context) => LoginScreen(),
-          EnterpriseLoginScreen.routeName: (context) => EnterpriseLoginScreen(),
           RegistrationScreen.routeName: (context) => RegistrationScreen(),
+          EnterpriseLoginScreen.routeName: (context) => EnterpriseLoginScreen(),
+          EnterpriseTasksScreen.routeName: (context) => EnterpriseTasksScreen(),
         },
       ),
     );

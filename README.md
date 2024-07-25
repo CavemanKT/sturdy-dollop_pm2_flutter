@@ -6,3 +6,6 @@ Engine • revision 235db911ba
 Tools • Dart 3.4.4 • DevTools 2.34.3
 
 please use fvm to pick the framework version
+
+2. change api end point
+go to /lib/config.dart
