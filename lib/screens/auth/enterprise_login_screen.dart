@@ -71,12 +71,7 @@ class _EnterpriseLoginScreenState extends State<EnterpriseLoginScreen> {
                 try {
                   await user.login(
                       usernameController.text, passwordController.text);
-                  print(Landlord.currentUser);
 
-                  var task = TaskData();
-                  task.initializeTasks(Landlord.currentUser['Posts']);
-
-                  usernameController.clear();
                   passwordController.clear();
 
                   Navigator.pushNamed(context, EnterpriseTasksScreen.routeName);

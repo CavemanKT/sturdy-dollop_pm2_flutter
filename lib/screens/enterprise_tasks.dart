@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pm2/models/auth/landlord.dart';
 import 'package:pm2/screens/auth/enterprise_login_screen.dart';
+import 'package:pm2/widgets/enterprise_tasks_list.dart';
 import 'package:pm2/widgets/tasks_list.dart';
 import 'package:pm2/screens/add_task_screen.dart';
 import 'package:provider/provider.dart';
@@ -47,28 +48,13 @@ class _EnterpriseTasksScreenState extends State<EnterpriseTasksScreen> {
                     print("user is going to logout.");
                     await user.logout();
                     Navigator.pop(context);
-                    Navigator.pushNamed(
-                        context, EnterpriseLoginScreen.routeName);
+                    // Navigator.pushNamed(
+                    //     context, EnterpriseLoginScreen.routeName);
                   },
                 )
               ],
             ),
             backgroundColor: Colors.lightBlueAccent,
-            floatingActionButton: FloatingActionButton(
-                backgroundColor: Colors.lightBlueAccent,
-                child: Icon(Icons.add),
-                onPressed: () {
-                  showModalBottomSheet(
-                      context: context,
-                      isScrollControlled: true,
-                      builder: (context) => SingleChildScrollView(
-                              child: Container(
-                            padding: EdgeInsets.only(
-                                bottom:
-                                    MediaQuery.of(context).viewInsets.bottom),
-                            child: AddTaskScreen(),
-                          )));
-                }),
             body: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
@@ -118,7 +104,7 @@ class _EnterpriseTasksScreenState extends State<EnterpriseTasksScreen> {
                         topRight: Radius.circular(20.0),
                       ),
                     ),
-                    child: TasksList(),
+                    child: EnterpriseTasksList(),
                   ),
                 ),
               ],

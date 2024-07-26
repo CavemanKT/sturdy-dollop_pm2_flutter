@@ -85,10 +85,6 @@ class _LoginScreenState extends State<LoginScreen> {
                       usernameController.text, passwordController.text);
                   print(User.currentUser);
 
-                  var task = TaskData();
-                  task.initializeTasks(User.currentUser['Posts']);
-
-                  usernameController.clear();
                   passwordController.clear();
 
                   Navigator.pushNamed(context, TasksScreen.routeName);

@@ -6,6 +6,8 @@ import 'package:pm2/screens/add_task_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:pm2/models/task_data.dart';
 
+import 'package:socket_io_client/socket_io_client.dart' as IO;
+
 var user = new User();
 
 class TasksScreen extends StatefulWidget {

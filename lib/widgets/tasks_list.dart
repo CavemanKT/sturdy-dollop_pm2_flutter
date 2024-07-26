@@ -18,7 +18,7 @@ class _TasksListState extends State<TasksList> {
     super.initState();
 
     Provider.of<TaskData>(context, listen: false)
-        .initializeTasks(User.currentUser['Posts']);
+        .initializeTasks(User.currentUser['id']);
   }
 
   @override

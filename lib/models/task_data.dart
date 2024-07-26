@@ -2,12 +2,12 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:pm2/config.dart';
 import 'package:pm2/models/auth/user.dart';
-import 'package:pm2/models/task.dart';
 import 'dart:collection';
 
 import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
+import 'package:pm2/services/socketio.dart';
 
 class TaskData extends ChangeNotifier {
   List<dynamic> _tasks = [];
@@ -20,18 +20,20 @@ class TaskData extends ChangeNotifier {
     return _tasks.length;
   }
 
-  Future<void> initializeTasks(lists) async {
+  Future<void> initializeTasks(int id, [String role = '']) async {
     var apiUrl = "$API_URL_CONFIG/api/posts";
     final http.Response response = await http.get(
       Uri.parse(apiUrl),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
-        'Authorization': 'Bearer ${User.currentUser['id']}'
+        'Authorization': 'Bearer ${id}',
+        'role': role
       },
     );
 
     print("response.statusCode: ${response.statusCode}");
     if (response.statusCode == 200) {
+      print("response.body line 36 : ${response.body}");
       _tasks = List.from(jsonDecode(response.body));
       _tasks.sort((a, b) => a['createdAt'].compareTo(b['createdAt']));
       notifyListeners();
@@ -41,7 +43,7 @@ class TaskData extends ChangeNotifier {
   }
 
   Future<void> addTask(
-      String newTaskTitle, String newTaskContent, num id) async {
+      String newTaskTitle, String newTaskContent, num landLordId) async {
     var apiUrl = "$API_URL_CONFIG/api/create-post";
     final http.Response response = await http.post(
       Uri.parse(apiUrl),
@@ -52,13 +54,16 @@ class TaskData extends ChangeNotifier {
       body: jsonEncode(<String, String>{
         'title': newTaskTitle,
         'content': newTaskContent,
-        'LandlordId': id.toString()
+        'LandlordId': landLordId.toString()
       }),
     );
 
     print("response.statusCode: ${response.statusCode}");
     if (response.statusCode == 200) {
       _tasks.add(jsonDecode(response.body));
+      socket.connect();
+      socket.emit('new-post', jsonDecode(response.body));
+
       notifyListeners();
     } else {
       throw Exception('Failed to add task.');
